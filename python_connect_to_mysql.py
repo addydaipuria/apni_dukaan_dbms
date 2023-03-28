@@ -24,9 +24,40 @@ def customercheck(s,p):
         return False
     except Exception as e:
         return False
+    
+    
+def getBrandwiseQuantity() : 
+    s = "SELECT coalesce(brand,'All Brands') as Brands, SUM(quantity) as Quantity FROM retail_store.product GROUP BY brand with ROLLUP;"
+    my_cursor.execute(s)
+    f=my_cursor.fetchall()
+    for i in f:
+        print(i)
+        print("\n")
         
-                                                                      
-
+def getCustomerAddressCost() : 
+    s="SELECT coalesce(customer_id,'All Customers') as Customers, coalesce(address,'All addresses') as Address, SUM(total_cost) FROM retail_store.orders GROUP BY customer_id,address with ROLLUP;"
+    my_cursor.execute(s)
+    f=my_cursor.fetchall()
+    for i in f:
+        print(i)
+        print("\n")
+                            
+def AverageRatingLocalityWise() : 
+    s = "SELECT coalesce(Locality,'All Localities') as Locality, AVG(customer_rating) FROM retail_store.distributor GROUP BY (locality) with ROLLUP;"                                          
+    my_cursor.execute(s)
+    f=my_cursor.fetchall()
+    for i in f:
+        print(i)
+        print("\n")
+        
+def DistributorWiseTotalCommission() : 
+    s = "SELECT coalesce(distributor_id,'All distributors') as DistributorID, coalesce(customer_rating,'All Ratings') as Ratings, coalesce(locality,'All Localities') as Locality, SUM(commission) as TotalCommision from retail_store.distributor GROUP BY distributor_id,customer_rating,locality with ROLLUP;"
+    my_cursor.execute(s)
+    f=my_cursor.fetchall()
+    for i in f:
+        print(i)
+        print("\n")
+        
 def embedsql1():
     s="SELECT * FROM retail_store.product where product_rating>=3.7"
     my_cursor.execute(s)
